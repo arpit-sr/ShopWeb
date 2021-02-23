@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ShopWeb.Core.Models;
+using ShopWeb.Core.ViewModels;
 using ShopWeb.DataAccess.InMemory;
 
 namespace ShopWeb.WebUI.Controllers
@@ -11,6 +12,7 @@ namespace ShopWeb.WebUI.Controllers
     public class ProductManagerController : Controller
     {
         ProductRepository context = new ProductRepository();
+        ProductCategoryRepository productCategories = new ProductCategoryRepository();
 
         // GET: ProductManager
         public ActionResult Index()
@@ -21,8 +23,12 @@ namespace ShopWeb.WebUI.Controllers
 
         public ActionResult Create()
         {
+            ProductManagerViewModel viewModels = new ProductManagerViewModel();
+            viewModels.Product = new Product();
+            viewModels.ProductCategories = productCategories.Collection();
+
             Product product = new Product();
-            return View(product);
+            return View(viewModels);
         }
 
         [HttpPost]
@@ -50,7 +56,11 @@ namespace ShopWeb.WebUI.Controllers
             }
                 else
             {
-                return View(product);
+                ProductManagerViewModel viewModels = new ProductManagerViewModel();
+                viewModels.Product = product;
+                viewModels.ProductCategories = productCategories.Collection();
+
+                return View(viewModels);
             }
         }
 

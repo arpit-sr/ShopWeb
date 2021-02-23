@@ -36,6 +36,10 @@ namespace ShopWeb.DataAccess.InMemory
             {
                 productToUpdate = product;
             }
+            else
+            {
+                throw new Exception("Product not found");
+            }
         }
         public Product Find(string Id)
         {
