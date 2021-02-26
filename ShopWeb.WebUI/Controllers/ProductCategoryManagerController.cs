@@ -1,4 +1,5 @@
-﻿using ShopWeb.Core.Models;
+﻿using ShopWeb.Core.Contracts;
+using ShopWeb.Core.Models;
 using ShopWeb.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,15 @@ namespace ShopWeb.WebUI.Controllers
 {
     public class ProductCategoryManagerController : Controller
     {
-        InMemoryRepository<ProductCategory> context = new InMemoryRepository<ProductCategory>();
+        IRepository<ProductCategory> context;
 
-            // GET: ProductManager
-            public ActionResult Index()
+        public ProductCategoryManagerController(IRepository<ProductCategory> context)
+        {
+            this.context = context;
+        }
+
+        // GET: ProductManager
+        public ActionResult Index()
             {
                 List<ProductCategory> productCategories = context.Collection().ToList();
                 return View(productCategories);
